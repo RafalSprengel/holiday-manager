@@ -1,0 +1,126 @@
+.container {
+    color: white;
+    width: 250px;
+    background-color: #54b68b; /* Zachowany kolor tła */
+    height: 100dvh;
+    padding: 0; /* Zmienione na 0, aby kontrolować padding wewnątrz */
+    position: fixed;
+    /* transform: translateX(-100%); */
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Do pozycjonowania sekcji użytkownika na dole */
+}
+
+/* Zachowany styl przycisku zamykania */
+.closeButton {
+    position: absolute;
+    top: 0px;
+    right: -55px;
+    background-color: #54b68b;
+    border-radius: 0 30% 30% 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 70px;
+}
+
+.closeButton span {
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1.1;
+    padding-right: .5px;
+    padding-top: 1px;
+}
+
+/* Style nawigacji */
+.nav {
+    flex-grow: 1;
+    padding-top: 20px; /* Odstęp od góry */
+}
+
+.menuList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menuItem, .menuItemActive {
+    margin-bottom: 5px; /* Odstęp między elementami */
+    padding: 0;
+}
+
+.menuLink {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: background-color 0.2s;
+    border-radius: 0; /* Usuwamy zaokrąglenia, jeśli nie są potrzebne */
+}
+
+.menuIcon {
+    font-size: 24px;
+    margin-right: 15px; /* Odstęp między ikoną a tekstem */
+}
+
+/* Wyróżnienie aktywnego elementu (kolor żółty) */
+.menuItemActive .menuLink {
+    background-color: #ffe81a; /* Kolor żółty z zrzutu ekranu */
+    color: #54b68b; /* Kolor tekstu dla aktywnego elementu */
+    font-weight: 600;
+}
+
+/* Styl dla aktywnej ikony */
+.menuItemActive .menuIcon {
+    color: #54b68b;
+}
+
+/* Sekcja dolna (Avatar i Settings) */
+.bottomSection {
+    padding: 20px 0;
+}
+
+.userSection {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px 20px 15px; /* Odstęp od dołu i boków */
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid white; /* Delikatna ramka wokół avatara */
+}
+
+.userName {
+    font-weight: 600;
+    color: white;
+}
+
+.settingsItem .menuLink {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.settingsIcon {
+    font-size: 24px;
+    margin-right: 15px;
+    color: white;
+}
+
+/* Media query dla wersji desktopowej - zachowany */
+@media (min-width: 768px) {
+    .container {
+        flex: 1;
+        position: relative;
+        transform: translateX(0);
+    }
+}
