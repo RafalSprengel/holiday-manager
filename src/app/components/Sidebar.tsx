@@ -9,7 +9,7 @@ import { TbChartBar } from 'react-icons/tb';
 
 export default function Sidebar(): JSX.Element {
 
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const sidebarRef = useRef<HTMLDivElement>(null)
 
     const handleClickOutside = (event: MouseEvent | Event) => {
@@ -33,15 +33,27 @@ export default function Sidebar(): JSX.Element {
     ];
 
     useEffect(() => {
-        if (isOpen) window.addEventListener('mousedown', handleClickOutside);
-        console.log("wartosc isOpen to : ", isOpen)
-        return () => window.removeEventListener('mousedown', handleClickOutside);
+        const overlayElement = document.getElementById('content-overlay');
+
+        if (isOpen) {
+            overlayElement.classList.add(styles.activeOverlay)
+            window.addEventListener('mousedown', handleClickOutside)
+        } else {
+            overlayElement?.classList.remove(styles.activeOverlay)
+        }
+
+        return () => {
+            window.removeEventListener('mousedown', handleClickOutside);
+            if (overlayElement) {
+                overlayElement.classList.remove(styles.activeOverlay);
+            }
+        }
 
     }, [isOpen])
 
     return (
         <div className={`${styles.container} ${isOpen ? styles.showContainer : ''}`} ref={sidebarRef}>
-            <div className={styles.closeButton} onClick={()=>setIsOpen(!isOpen)}><span>X</span></div>
+            <div className={styles.closeButton} onClick={() => setIsOpen(!isOpen)}><span>X</span></div>
 
             <nav className={styles.nav}>
                 <ul className={styles.menuList}>

@@ -30,6 +30,7 @@ export default function RootLayout({
         <div className={styles.app}>
           <Sidebar />
           {children}
+          <div id='content-overlay' className={styles.overlay}></div>
         </div>
 
       </body>

@@ -1,4 +1,17 @@
 .content {
     padding: 10px;
     flex: 3;
+    min-height: 100dvh ;
+    position: relative;
 }
+
+/* .contentOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.656);
+    z-index: 998;
+    transition: opacity 0.3s ease; 
+} */
