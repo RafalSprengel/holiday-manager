@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import styles from "./layout.module.css";
+import AOSInitializer from './components/AOSInitializer';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,8 +29,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <div className={styles.app}>
+          <AOSInitializer />
           <Sidebar />
-          {children}
+          <div className={styles.content}>{children}</div>
           <div id='content-overlay' className={styles.overlay}></div>
         </div>
 

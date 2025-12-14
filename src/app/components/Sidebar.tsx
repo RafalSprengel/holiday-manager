@@ -1,6 +1,7 @@
 "use client"
 import styles from './Sidebar.module.css';
 import { JSX, useState, useRef, useEffect, MouseEvent } from 'react';
+import Link from 'next/link';
 import { IoHomeOutline, IoPersonOutline, IoHelpCircleOutline, IoBusinessOutline } from 'react-icons/io5';
 import { BsCalendarDate } from 'react-icons/bs';
 import { FiRefreshCcw, FiThumbsUp } from 'react-icons/fi';
@@ -57,26 +58,43 @@ export default function Sidebar(): JSX.Element {
 
             <nav className={styles.nav}>
                 <ul className={styles.menuList}>
-                    {topMenuItems.map((item) => (
-                        <li key={item.name} className={item.current ? styles.menuItemActive : styles.menuItem}>
-                            <a href={item.path} className={styles.menuLink}>
-                                <item.icon className={styles.menuIcon} />
-                                <span>{item.name}</span>
-                            </a>
-                        </li>
-                    ))}
+                    {topMenuItems.map((item, index) => {
+                        const delay = `${index * 0.07}s`;
+                        const baseClass = item.current ? styles.menuItemActive : styles.menuItem;
+                        const animatedClass = isOpen ? styles.menuItemAnimated : '';
+
+                        return (
+                            <li
+                                key={item.name}
+                                className={`${baseClass} ${animatedClass}`}
+                                style={isOpen ? { '--animation-delay': delay } as React.CSSProperties : undefined}>
+                                <Link href={item.path} className={styles.menuLink}>
+                                    <item.icon className={styles.menuIcon} />
+                                    <span>{item.name}</span>
+                                </Link>
+                            </li>
+                        )
+                    })}
                 </ul>
             </nav>
 
             <div className={styles.bottomSection}>
-                {bottomMenuItems.map((item) => (
-                    <div key={item.name} className={styles.menuItem}>
-                        <a href={item.path} className={styles.menuLink}>
-                            <item.icon className={styles.menuIcon} />
-                            <span>{item.name}</span>
-                        </a>
-                    </div>
-                ))}
+                {bottomMenuItems.map((item, index) => {
+                    const delay = `${(topMenuItems.length + index) * 0.05}s`;
+                    const animatedClass = isOpen ? styles.menuItemAnimated : '';
+
+                    return (
+                        <div 
+                            key={item.name} 
+                            className={`${styles.menuItem} ${animatedClass}`}
+                            style={isOpen ? { '--animation-delay': delay } as React.CSSProperties : undefined}>
+                            <Link href={item.path} className={styles.menuLink}>
+                                <item.icon className={styles.menuIcon} />
+                                <span>{item.name}</span>
+                            </Link>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     );

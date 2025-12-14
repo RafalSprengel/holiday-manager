@@ -16,3 +16,10 @@
     pointer-events: none; 
     transition: opacity 0.3s ease;
 }
+
+.content {
+    padding: 10px;
+    flex: 3;
+    min-height: 100dvh ;
+    position: relative;
+}

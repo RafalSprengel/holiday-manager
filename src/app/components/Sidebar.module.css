@@ -47,6 +47,7 @@
 
 .nav {
     flex-grow: 1;
+    padding: 10px;
     padding-top: 20px;
 }
 
@@ -71,6 +72,11 @@
     font-size: 16px;
     transition: background-color 0.2s;
     border-radius: 0;
+    transition: color 0.2s;
+}
+
+.menuLink:hover{
+color: #ffe81a;
 }
 
 .menuIcon {
@@ -130,4 +136,32 @@
         position: relative;
         transform: translateX(0);
     }
+    
+    .closeButton{
+        display: none;
+    }
+}
+
+/* Nowe style dla animacji menu */
+@keyframes slideInFromLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.menuItemAnimated {
+    opacity: 0;
+    transform: translateX(-50px);
+    
+    animation-name: slideInFromLeft;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    
+    animation-delay: var(--animation-delay, 0s); 
 }
