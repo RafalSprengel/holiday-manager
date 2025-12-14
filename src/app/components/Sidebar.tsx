@@ -37,7 +37,7 @@ export default function Sidebar(): JSX.Element {
         const overlayElement = document.getElementById('content-overlay');
 
         if (isOpen) {
-            overlayElement.classList.add(styles.activeOverlay)
+            overlayElement?.classList.add(styles.activeOverlay)
             window.addEventListener('mousedown', handleClickOutside)
         } else {
             overlayElement?.classList.remove(styles.activeOverlay)
