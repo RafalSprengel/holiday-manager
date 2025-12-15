@@ -8,6 +8,7 @@ import { FiRefreshCcw, FiThumbsUp } from 'react-icons/fi';
 import { HiOutlineUsers, HiOutlineArrowLeftOnRectangle } from 'react-icons/hi2';
 import { TbChartBar } from 'react-icons/tb';
 import { usePathname } from 'next/navigation';
+import HamburgerButton from '@/components/HamburgerButton/HamburgerButton';
 
 export default function Sidebar(): JSX.Element {
 
@@ -18,6 +19,20 @@ export default function Sidebar(): JSX.Element {
     const handleClickOutside = (event: MouseEvent | Event) => {
         if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) setIsOpen(false)
     }
+
+    const closeSideMenu = () => {
+        const timer = setTimeout(() => {
+            setIsOpen(false)
+        }, 500)
+        return () => clearTimeout(timer)
+    }
+
+    const toggleSideMenu = () => {
+        setIsOpen(!isOpen)
+    }
+
+
+
 
     const topMenuItems = [
         { name: 'Dashboard', icon: IoHomeOutline, current: true, path: '/' },
@@ -56,8 +71,14 @@ export default function Sidebar(): JSX.Element {
 
     return (
         <div className={`${styles.container} ${isOpen ? styles.showContainer : ''}`} ref={sidebarRef}>
-            <div className={styles.closeButton} onClick={() => setIsOpen(!isOpen)}><span>X</span></div>
-
+            {/* <div className={styles.closeButton} onClick={() => setIsOpen(!isOpen)}><span>X</span></div> */}
+            <div className={styles.closeButton}>
+                <HamburgerButton
+                    isOpen={isOpen}
+                    onClick={toggleSideMenu}
+                    ariaLabel={isOpen ? 'Close menu' : 'Open menu'}
+                />
+            </div>
             <nav className={styles.nav}>
                 <ul className={styles.menuList}>
                     {topMenuItems.map((item, index) => {
@@ -69,7 +90,9 @@ export default function Sidebar(): JSX.Element {
                             <li
                                 key={item.name}
                                 className={`${baseClass} ${animatedClass}`}
-                                style={isOpen ? { '--animation-delay': delay } as React.CSSProperties : undefined}>
+                                style={isOpen ? { '--animation-delay': delay } as React.CSSProperties : undefined}
+                                onClick={closeSideMenu}
+                            >
                                 <Link href={item.path} className={styles.menuLink}>
                                     <item.icon className={styles.menuIcon} />
                                     <span>{item.name}</span>
@@ -86,8 +109,8 @@ export default function Sidebar(): JSX.Element {
                     const animatedClass = isOpen ? styles.menuItemAnimated : '';
 
                     return (
-                        <div 
-                            key={item.name} 
+                        <div
+                            key={item.name}
                             className={`${styles.menuItem} ${animatedClass}`}
                             style={isOpen ? { '--animation-delay': delay } as React.CSSProperties : undefined}>
                             <Link href={item.path} className={styles.menuLink}>
