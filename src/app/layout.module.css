@@ -18,6 +18,9 @@
 }
 
 .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;;
     padding: 10px;
     flex: 3;
     min-height: 100dvh ;

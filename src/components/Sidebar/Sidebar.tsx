@@ -38,7 +38,7 @@ export default function Sidebar(): JSX.Element {
         { name: 'Dashboard', icon: IoHomeOutline, current: true, path: '/' },
         { name: 'Calendar', icon: BsCalendarDate, current: false, path: '/calendar' },
         { name: 'My leaves', icon: FiRefreshCcw, current: false, path: '/my-leaves' },
-        { name: 'Leaves to approve', icon: FiThumbsUp, current: false, path: '/approve-leaves' },
+        { name: 'Leaves to approve', icon: FiThumbsUp, current: false, path: '/leaves-to-approve' },
         { name: 'Employees', icon: HiOutlineUsers, current: false, path: '/employees' },
         { name: 'Reports', icon: TbChartBar, current: false, path: '/reports' },
         { name: 'Support', icon: IoHelpCircleOutline, current: false, path: '/support' },
