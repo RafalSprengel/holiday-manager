@@ -7,11 +7,13 @@ import { BsCalendarDate } from 'react-icons/bs';
 import { FiRefreshCcw, FiThumbsUp } from 'react-icons/fi';
 import { HiOutlineUsers, HiOutlineArrowLeftOnRectangle } from 'react-icons/hi2';
 import { TbChartBar } from 'react-icons/tb';
+import { usePathname } from 'next/navigation';
 
 export default function Sidebar(): JSX.Element {
 
     const [isOpen, setIsOpen] = useState(false);
-    const sidebarRef = useRef<HTMLDivElement>(null)
+    const sidebarRef = useRef<HTMLDivElement>(null);
+    const pathname = usePathname()
 
     const handleClickOutside = (event: MouseEvent | Event) => {
         if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) setIsOpen(false)
@@ -60,7 +62,7 @@ export default function Sidebar(): JSX.Element {
                 <ul className={styles.menuList}>
                     {topMenuItems.map((item, index) => {
                         const delay = `${index * 0.07}s`;
-                        const baseClass = item.current ? styles.menuItemActive : styles.menuItem;
+                        const baseClass = (item.path == pathname) ? styles.menuItemActive : styles.menuItem;
                         const animatedClass = isOpen ? styles.menuItemAnimated : '';
 
                         return (
