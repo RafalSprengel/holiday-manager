@@ -20,7 +20,7 @@ export default function Sidebar(): JSX.Element {
     }
 
     const topMenuItems = [
-        { name: 'Dashboard', icon: IoHomeOutline, current: true, path: '/dashboard' },
+        { name: 'Dashboard', icon: IoHomeOutline, current: true, path: '/' },
         { name: 'Calendar', icon: BsCalendarDate, current: false, path: '/calendar' },
         { name: 'My leaves', icon: FiRefreshCcw, current: false, path: '/my-leaves' },
         { name: 'Leaves to approve', icon: FiThumbsUp, current: false, path: '/approve-leaves' },
