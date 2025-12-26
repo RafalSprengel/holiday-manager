@@ -31,19 +31,24 @@ export default function Sidebar(): JSX.Element {
         setIsOpen(!isOpen)
     }
 
+    const adminMenuItems = [
+        { name: 'Dashboard', icon: IoHomeOutline, current: true, path: '/admin/dashboard' },
+        { name: 'Calendar', icon: BsCalendarDate, current: false, path: '/admin/calendar' },
+        { name: 'Leaves to approve', icon: FiThumbsUp, current: false, path: '/admin/leaves-to-approve' },
+        { name: 'Employees', icon: HiOutlineUsers, current: false, path: '/admin/employees' },
+        { name: 'Reports', icon: TbChartBar, current: false, path: '/admin/reports' },
+        { name: 'Support', icon: IoHelpCircleOutline, current: false, path: '/admin/support' },
+        { name: 'Company', icon: IoBusinessOutline, current: false, path: '/admin/company' },
+    ];
 
-
-
-    const topMenuItems = [
+    const employeeMenuItems = [
         { name: 'Dashboard', icon: IoHomeOutline, current: true, path: '/' },
         { name: 'Calendar', icon: BsCalendarDate, current: false, path: '/calendar' },
         { name: 'My leaves', icon: FiRefreshCcw, current: false, path: '/my-leaves' },
-        { name: 'Leaves to approve', icon: FiThumbsUp, current: false, path: '/leaves-to-approve' },
-        { name: 'Employees', icon: HiOutlineUsers, current: false, path: '/employees' },
-        { name: 'Reports', icon: TbChartBar, current: false, path: '/reports' },
         { name: 'Support', icon: IoHelpCircleOutline, current: false, path: '/support' },
-        { name: 'Company', icon: IoBusinessOutline, current: false, path: '/company' },
     ];
+
+    const menuItems = pathname.startsWith('/admin') ? adminMenuItems : employeeMenuItems;
 
     const bottomMenuItems = [
         { name: 'My account', icon: IoPersonOutline, path: '/my-account' },
@@ -71,7 +76,6 @@ export default function Sidebar(): JSX.Element {
 
     return (
         <div className={`${styles.container} ${isOpen ? styles.showContainer : ''}`} ref={sidebarRef}>
-            {/* <div className={styles.closeButton} onClick={() => setIsOpen(!isOpen)}><span>X</span></div> */}
             <div className={styles.closeButton}>
                 <HamburgerButton
                     isOpen={isOpen}
@@ -81,7 +85,7 @@ export default function Sidebar(): JSX.Element {
             </div>
             <nav className={styles.nav}>
                 <ul className={styles.menuList}>
-                    {topMenuItems.map((item, index) => {
+                    {menuItems.map((item, index) => {
                         const delay = `${index * 0.07}s`;
                         const baseClass = (item.path == pathname) ? styles.menuItemActive : styles.menuItem;
                         const animatedClass = isOpen ? styles.menuItemAnimated : '';
@@ -105,7 +109,7 @@ export default function Sidebar(): JSX.Element {
 
             <div className={styles.bottomSection}>
                 {bottomMenuItems.map((item, index) => {
-                    const delay = `${(topMenuItems.length + index) * 0.05}s`;
+                    const delay = `${(menuItems.length + index) * 0.05}s`;
                     const animatedClass = isOpen ? styles.menuItemAnimated : '';
 
                     return (

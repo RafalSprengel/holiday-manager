@@ -1,0 +1,8 @@
+import { JSX} from 'react';
+
+export default function Calendar(): JSX.Element {
+
+    return (
+        <div>Admin calendar</div>
+    )
+}

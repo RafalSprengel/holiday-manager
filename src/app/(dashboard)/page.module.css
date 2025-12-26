@@ -1,0 +1,49 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+}
+
+.table th,
+.table td {
+  text-align: right;
+}
+
+.table th:first-child,
+.table td:first-child {
+  text-align: left;
+}
+
+.table th {
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgb(136, 136, 136);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.table th:not(:first-child) {
+  font-size: 0.8rem;
+  font-weight: normal;
+  text-transform: none;
+  color: #666;
+}
+
+.table td {
+  padding: 16px 0;
+  font-size: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.button{
+width: 100%;
+color: white;
+background-color: #54b68b;
+font-size: 1rem;;
+border: none;
+border-radius: 5px;
+padding: 10px 0;;
+}
