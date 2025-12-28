@@ -1,7 +1,14 @@
+'use client'
+import { useState } from "react";
 import Card from "@/components/Card/Card";
 import styles from "./page.module.css";
+import CalendarPicker from "@/components/CalendarPicker/CalendarPicker";
+
 
 export default function Dashboard() {
+  const [booking, setBooking] = useState({ start: null, end: null });
+  const reservedDates = [{ date: '2026-01-10' }, { date: '2026-01-13' }];
+
   return (
     <>
       <Card>
@@ -37,13 +44,13 @@ export default function Dashboard() {
               <td>27</td>
               <td>28</td>
             </tr>
-             <tr>
+            <tr>
               <td>Sick Leave</td>
               <td>2</td>
               <td>0</td>
               <td>0</td>
             </tr>
-             <tr>
+            <tr>
               <td>Unpaid Leave</td>
               <td>0</td>
               <td>0</td>
@@ -52,12 +59,19 @@ export default function Dashboard() {
           </tbody>
         </table>
       </Card>
-       <Card>
+      <Card>
         <h3>Book time off</h3>
         <form>
           <button className={styles.button}>Send request</button>
         </form>
       </Card>
+      <CalendarPicker
+        dbDates={reservedDates}
+        onDateChange={(dates) => setBooking(dates)} />
+
+      {booking.start && <p>Wybrany początek: {booking.start}</p>}
+      {booking.end && <p>Wybrany koniec: {booking.end}</p>}
+
     </>
 
   );
