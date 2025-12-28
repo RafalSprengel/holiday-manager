@@ -15,6 +15,7 @@ const Day = ({
     isReserved,
     isSunday,
     isSaturday,
+    isWeekend,
     handleClickOnDay,
     handleMouseHoverDay,
 }) => {
@@ -28,7 +29,8 @@ const Day = ({
         isSelectedAsStart ? 'day__selected-as-start' : '',
         isSelectedAsEnd ? 'day__selected-as-end' : '',
         isSelectedBetween ? 'day__selected-between' : '',
-        isHovered ? 'day__hovered' : ''
+        isHovered ? 'day__hovered' : '',
+        isWeekend ? 'day__weekend' : '',
     ].filter(Boolean).join(' ');
 
     return (
@@ -42,14 +44,14 @@ const Day = ({
     );
 };
 
-const Month = ({ currentDate, dbDates, selectedStart, selectedEnd, setSelectedStart, setSelectedEnd }) => {
+const Month = ({ currentDate, unavailableDates, selectedStart, selectedEnd, setSelectedStart, setSelectedEnd }) => {
     const [hoveredDate, setHoveredDate] = useState(null);
     const res = [];
     let currentDay = 0;
-    
+
     let firstDayOfTheMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
     if (firstDayOfTheMonth === 0) firstDayOfTheMonth = 7;
-    
+
     const numberOfDaysCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
 
     for (let i = 1; i <= 42; i++) {
@@ -59,31 +61,35 @@ const Month = ({ currentDate, dbDates, selectedStart, selectedEnd, setSelectedSt
             let isReserved = false;
             let dateObj = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDay);
             let currentDateFormatted = formatDate(dateObj);
-            
+
             const todayFormatted = formatDate(new Date());
-            const isPast = new Date(currentDateFormatted + 'T23:59:59') < new Date();
+
             const isToday = todayFormatted === currentDateFormatted;
             const isSunday = dateObj.getDay() === 0;
             const isSaturday = dateObj.getDay() === 6;
-            
+            const isPast = new Date(currentDateFormatted + 'T23:59:59') < new Date();
+            const isWeekend = isSunday || isSaturday;
+
             let isSelectedAsStart = selectedStart === currentDateFormatted;
             let isSelectedAsEnd = selectedEnd === currentDateFormatted;
-            
-            if (dbDates) {
-                isReserved = dbDates.some(el => el.date === currentDateFormatted);
+
+            if (unavailableDates) {
+                isReserved = unavailableDates.some(el => el.date === currentDateFormatted);
             }
 
-            let isHovered = selectedStart && !selectedEnd && 
-                            new Date(currentDateFormatted) > new Date(selectedStart) && 
-                            new Date(currentDateFormatted) < new Date(hoveredDate);
+            let isHovered = selectedStart && !selectedEnd &&
+                new Date(currentDateFormatted) > new Date(selectedStart) &&
+                new Date(currentDateFormatted) < new Date(hoveredDate) &&
+                !isReserved && !isWeekend;
 
             if (selectedStart && selectedEnd) {
-                isSelectedBetween = new Date(currentDateFormatted) > new Date(selectedStart) && 
-                                    new Date(currentDateFormatted) < new Date(selectedEnd);
+                isSelectedBetween = new Date(currentDateFormatted) > new Date(selectedStart) &&
+                    new Date(currentDateFormatted) < new Date(selectedEnd) &&
+                    !isReserved && !isWeekend;
             }
 
             const handleClickOnDay = (date) => {
-                if (isPast) return;
+                if (isPast || isWeekend || isReserved) return;
                 if (!selectedStart || (selectedStart && selectedEnd)) {
                     setSelectedStart(date);
                     setSelectedEnd(null);
@@ -114,6 +120,7 @@ const Month = ({ currentDate, dbDates, selectedStart, selectedEnd, setSelectedSt
                     isReserved={isReserved}
                     isSunday={isSunday}
                     isSaturday={isSaturday}
+                    isWeekend={isWeekend}
                     handleClickOnDay={handleClickOnDay}
                     handleMouseHoverDay={handleMouseHoverDay}
                     isHovered={isHovered}
@@ -135,7 +142,7 @@ function formatDate(dateObj) {
     } else return null
 }
 
-export default function CalendarPicker({ dbDates, onDateChange }) {
+export default function CalendarPicker({ unavailableDates, onDateChange }) { // <- Nowa nazwa
     const [currentDate, setDate] = useState(new Date());
     const [selectedStart, setSelectedStart] = useState(null);
     const [selectedEnd, setSelectedEnd] = useState(null);
@@ -146,11 +153,39 @@ export default function CalendarPicker({ dbDates, onDateChange }) {
         'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
+    const getSelectedDaysCount = () => {
+        if (!selectedStart) return 0;
+        if (!selectedEnd) return 1;
+
+        let count = 0;
+        let start = new Date(selectedStart);
+        let end = new Date(selectedEnd);
+
+        if (start > end) [start, end] = [end, start];
+
+        let tempDate = new Date(start);
+        while (tempDate <= end) {
+            const dayOfWeek = tempDate.getDay();
+            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+            const formatted = formatDate(tempDate);
+            // const isReserved = dbDates?.some(el => el.date === formatted); // <- Stara nazwa
+            const isReserved = unavailableDates?.some(el => el.date === formatted); // <- Nowa nazwa
+
+            if (!isWeekend && !isReserved) {
+                count++;
+            }
+            tempDate.setDate(tempDate.getDate() + 1);
+        }
+        return count;
+    };
+
+    const totalSelected = getSelectedDaysCount();
+
     useEffect(() => {
         if (onDateChange) {
-            onDateChange({ start: selectedStart, end: selectedEnd });
+            onDateChange({ start: selectedStart, end: selectedEnd, count: totalSelected });
         }
-    }, [selectedStart, selectedEnd, onDateChange]);
+    }, [selectedStart, selectedEnd, totalSelected, onDateChange]);
 
     const changeMonth = (offset) => {
         const newDate = new Date(currentDate);
@@ -182,7 +217,7 @@ export default function CalendarPicker({ dbDates, onDateChange }) {
 
             <Month
                 currentDate={currentDate}
-                dbDates={dbDates}
+                unavailableDates={unavailableDates}
                 selectedStart={selectedStart}
                 selectedEnd={selectedEnd}
                 setSelectedStart={setSelectedStart}
@@ -191,7 +226,9 @@ export default function CalendarPicker({ dbDates, onDateChange }) {
 
             <div className="buttons">
                 <button className="buttons__clear" onClick={() => { setSelectedStart(null); setSelectedEnd(null); }}>Clear</button>
-                <button className="buttons__add">Book now</button>
+                <button className="buttons__add" disabled={totalSelected === 0}>
+                    {totalSelected > 0 ? `Book ${totalSelected} day${totalSelected > 1 ? 's' : ''}` : 'Book now'}
+                </button>
             </div>
         </div>
     );

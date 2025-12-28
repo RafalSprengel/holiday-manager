@@ -7,7 +7,7 @@ import CalendarPicker from "@/components/CalendarPicker/CalendarPicker";
 
 export default function Dashboard() {
   const [booking, setBooking] = useState({ start: null, end: null });
-  const reservedDates = [{ date: '2026-01-10' }, { date: '2026-01-13' }];
+  const reservedDates = [{ date: '2026-01-09' }, { date: '2026-01-13' }];
 
   return (
     <>
@@ -66,7 +66,7 @@ export default function Dashboard() {
         </form>
       </Card>
       <CalendarPicker
-        dbDates={reservedDates}
+        unavailableDates={reservedDates}
         onDateChange={(dates) => setBooking(dates)} />
 
       {booking.start && <p>Wybrany początek: {booking.start}</p>}

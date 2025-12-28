@@ -159,8 +159,18 @@
     color: white;
 }
 
+.day__disabled {
+    background-color: #0a0250;
+    color: white;
+}
+
 .day__past {
     color: #d3d3d3;
+}
+
+.day__weekend {
+    color: #d3d3d3;
+    pointer-events: none;
 }
 
 .buttons {
