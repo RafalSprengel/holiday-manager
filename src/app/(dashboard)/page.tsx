@@ -4,10 +4,22 @@ import Card from "@/components/Card/Card";
 import styles from "./page.module.css";
 import CalendarPicker from "@/components/CalendarPicker/CalendarPicker";
 
+interface BookingDates {
+  start: string | null;
+  end: string | null;
+  count: number;
+}
+
+interface UnavailableDate{
+  date : string | null;
+}
+
+type UnavailableDates = UnavailableDate[];
+
 
 export default function Dashboard() {
-  const [booking, setBooking] = useState({ start: null, end: null });
-  const reservedDates = [{ date: '2026-01-09' }, { date: '2026-01-13' }];
+  const [booking, setBooking] = useState<BookingDates>({ start: null, end: null });
+  const reservedDates: UnavailableDates = [{ date: '2026-01-09' }, { date: '2026-01-13' }];
 
   return (
     <>
@@ -65,13 +77,13 @@ export default function Dashboard() {
           <button className={styles.button}>Send request</button>
         </form>
       </Card>
-      <CalendarPicker
-        unavailableDates={reservedDates}
-        onDateChange={(dates) => setBooking(dates)} />
-
-      {booking.start && <p>Wybrany początek: {booking.start}</p>}
-      {booking.end && <p>Wybrany koniec: {booking.end}</p>}
-
+      <div className={styles.calendarPickerContainer} >
+        <CalendarPicker
+          unavailableDates={reservedDates}
+          onDateChange={(dates: BookingDates) => setBooking(dates)} />
+      </div >
+      {booking.start && <p>Start Date: {booking.start}</p>}
+      {booking.end && <p>End Date: {booking.end}</p>}
     </>
 
   );

@@ -1,7 +1,35 @@
 "use client";
-
 import { useState, useEffect } from 'react';
 import './ClendarPicker.css';
+
+interface UnavailableDate {
+    date: string;
+}
+
+type UnavailableDates = UnavailableDate[];
+
+interface BookingDates {
+    start: string | null;
+        end: string | null;
+        count: number;
+}
+
+interface DayProps {
+    currentDay: number;
+    currentDate: string;
+    isPast: boolean;
+    isToday: boolean;
+    isSelectedAsStart: boolean;
+    isSelectedAsEnd: boolean;
+    isSelectedBetween: boolean;
+    isHovered: boolean;
+    isReserved: boolean;
+    isSunday: boolean;
+    isSaturday: boolean;
+    isWeekend: boolean;
+    handleClickOnDay: (date: string) => void;
+    handleMouseHoverDay: (date: string) => void;
+}
 
 const Day = ({
     currentDay,
@@ -18,7 +46,7 @@ const Day = ({
     isWeekend,
     handleClickOnDay,
     handleMouseHoverDay,
-}) => {
+}: DayProps) => {
     const dayClasses = [
         'day',
         isPast ? 'day__past' : '',
@@ -44,8 +72,17 @@ const Day = ({
     );
 };
 
-const Month = ({ currentDate, unavailableDates, selectedStart, selectedEnd, setSelectedStart, setSelectedEnd }) => {
-    const [hoveredDate, setHoveredDate] = useState(null);
+interface MonthProps {
+    currentDate: Date;
+    unavailableDates: UnavailableDates | null;
+    selectedStart: string | null;
+    selectedEnd: string | null;
+    setSelectedStart: (date: string | null) => void;
+    setSelectedEnd: (date: string | null) => void;
+}
+
+const Month = ({ currentDate, unavailableDates, selectedStart, selectedEnd, setSelectedStart, setSelectedEnd }: MonthProps) => {
+    const [hoveredDate, setHoveredDate] = useState<string | null>(null);
     const res = [];
     let currentDay = 0;
 
@@ -77,10 +114,10 @@ const Month = ({ currentDate, unavailableDates, selectedStart, selectedEnd, setS
                 isReserved = unavailableDates.some(el => el.date === currentDateFormatted);
             }
 
-            let isHovered = selectedStart && !selectedEnd &&
+            let isHovered = Boolean(selectedStart && !selectedEnd && hoveredDate &&
                 new Date(currentDateFormatted) > new Date(selectedStart) &&
                 new Date(currentDateFormatted) < new Date(hoveredDate) &&
-                !isReserved && !isWeekend;
+                !isReserved && !isWeekend);
 
             if (selectedStart && selectedEnd) {
                 isSelectedBetween = new Date(currentDateFormatted) > new Date(selectedStart) &&
@@ -88,7 +125,7 @@ const Month = ({ currentDate, unavailableDates, selectedStart, selectedEnd, setS
                     !isReserved && !isWeekend;
             }
 
-            const handleClickOnDay = (date) => {
+            const handleClickOnDay = (date: string) => {
                 if (isPast || isWeekend || isReserved) return;
                 if (!selectedStart || (selectedStart && selectedEnd)) {
                     setSelectedStart(date);
@@ -103,7 +140,7 @@ const Month = ({ currentDate, unavailableDates, selectedStart, selectedEnd, setS
                 }
             };
 
-            const handleMouseHoverDay = (date) => {
+            const handleMouseHoverDay = (date: string ) => {
                 if (selectedStart && !selectedEnd) setHoveredDate(date);
             };
 
@@ -133,27 +170,30 @@ const Month = ({ currentDate, unavailableDates, selectedStart, selectedEnd, setS
     return <div className="month-container">{res}</div>;
 };
 
-function formatDate(dateObj) {
-    if (dateObj) {
+function formatDate(dateObj: Date): string {
         let year = dateObj.getFullYear();
         let month = ((dateObj.getMonth() + 1)).toString().padStart(2, '0');
         let day = dateObj.getDate().toString().padStart(2, '0');
         return (year + "-" + month + '-' + day);
-    } else return null
 }
 
-export default function CalendarPicker({ unavailableDates, onDateChange }) { // <- Nowa nazwa
-    const [currentDate, setDate] = useState(new Date());
-    const [selectedStart, setSelectedStart] = useState(null);
-    const [selectedEnd, setSelectedEnd] = useState(null);
+interface CalendarPickerProps {
+    unavailableDates: UnavailableDates | null;
+    onDateChange: (dates: BookingDates) => void;
+}
 
-    const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const monthsNames = [
+export default function CalendarPicker({ unavailableDates, onDateChange }: CalendarPickerProps) { 
+    const [currentDate, setDate] = useState<Date>(new Date());
+    const [selectedStart, setSelectedStart] = useState<string | null>(null);
+    const [selectedEnd, setSelectedEnd] = useState<string | null>(null);
+
+    const weekDays: string[]= ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const monthsNames: string[] = [
         'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
-    const getSelectedDaysCount = () => {
+    const getSelectedDaysCount = (): number => {
         if (!selectedStart) return 0;
         if (!selectedEnd) return 1;
 
@@ -168,8 +208,7 @@ export default function CalendarPicker({ unavailableDates, onDateChange }) { // 
             const dayOfWeek = tempDate.getDay();
             const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
             const formatted = formatDate(tempDate);
-            // const isReserved = dbDates?.some(el => el.date === formatted); // <- Stara nazwa
-            const isReserved = unavailableDates?.some(el => el.date === formatted); // <- Nowa nazwa
+            const isReserved = unavailableDates?.some(el => el.date === formatted);
 
             if (!isWeekend && !isReserved) {
                 count++;
@@ -187,13 +226,13 @@ export default function CalendarPicker({ unavailableDates, onDateChange }) { // 
         }
     }, [selectedStart, selectedEnd, totalSelected, onDateChange]);
 
-    const changeMonth = (offset) => {
+    const changeMonth = (offset: number) => {
         const newDate = new Date(currentDate);
         newDate.setMonth(newDate.getMonth() + offset);
         setDate(newDate);
     };
 
-    const changeYear = (offset) => {
+    const changeYear = (offset: number) => {
         const newDate = new Date(currentDate);
         newDate.setFullYear(newDate.getFullYear() + offset);
         setDate(newDate);
