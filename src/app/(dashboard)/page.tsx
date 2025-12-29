@@ -7,7 +7,6 @@ import CalendarPicker from "@/components/CalendarPicker/CalendarPicker";
 interface BookingDates {
   start: string | null;
   end: string | null;
-  count: number;
 }
 
 interface UnavailableDate{
@@ -57,13 +56,13 @@ export default function Dashboard() {
               <td>28</td>
             </tr>
             <tr>
-              <td>Sick Leave</td>
+              <td>Bonus Days</td>
               <td>2</td>
               <td>0</td>
               <td>0</td>
             </tr>
             <tr>
-              <td>Unpaid Leave</td>
+              <td>Additional Holiday Entitlement</td>
               <td>0</td>
               <td>0</td>
               <td>0</td>

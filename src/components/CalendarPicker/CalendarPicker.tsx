@@ -3,15 +3,15 @@ import { useState, useEffect } from 'react';
 import './ClendarPicker.css';
 
 interface UnavailableDate {
-    date: string;
+    date: string | null;
 }
 
 type UnavailableDates = UnavailableDate[];
 
 interface BookingDates {
     start: string | null;
-        end: string | null;
-        count: number;
+    end: string | null;
+    count: number;
 }
 
 interface DayProps {
