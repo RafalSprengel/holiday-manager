@@ -95,6 +95,8 @@
     border-radius: 3px;
     color: #4a4949;
     user-select: none;
+    box-shadow: 3px 3px 7px 0px #d2d2d280;
+    z-index: 2;
 }
 
 .day:hover {
@@ -145,9 +147,12 @@
 
 .day__selected-as-start,
 .day__selected-as-end {
-    background-color: #D99800;
+    /* background-color: #D99800; */
+    background-color: #ffe299;
     color: white;
 }
+
+
 
 .day__selected-between {
     background-color: #ffe299 !important;
