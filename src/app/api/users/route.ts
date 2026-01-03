@@ -50,7 +50,6 @@ export async function POST(request: NextRequest) {
         })
         const savedUser = await newUser.save();
         const responseData = savedUser.toObject();
-        delete responseData.password;
         return NextResponse.json(responseData, { status: 201 });
     } catch (error) {
         console.log(error);

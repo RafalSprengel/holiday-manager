@@ -27,5 +27,6 @@ const teamSchema = new mongoose.Schema({
 
 teamSchema.index({ companyId: 1 });
 teamSchema.index({ managerId: 1 });
+teamSchema.index({ name: 1, companyId: 1 }, { unique: true });
 
 export default mongoose.model('Team', teamSchema);

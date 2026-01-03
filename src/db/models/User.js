@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
   },
+  password: {
+    type: String,
+    required: true,
+    select: false
+  },
   role: {
     type: String,
     enum: ['employee', 'manager', 'admin'],
@@ -50,13 +55,13 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   }
-}, { 
+}, {
   timestamps: true,
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
 });
 
-userSchema.virtual('fullName').get(function() {
+userSchema.virtual('fullName').get(function () {
   return `${this.firstName} ${this.lastName}`;
 });
 
