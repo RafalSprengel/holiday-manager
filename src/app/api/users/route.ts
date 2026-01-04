@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from '@/db/mongoose';
 import User from '@/db/models/User';
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {  //get all Users
     await dbConnect();
 
     try {
@@ -22,17 +22,18 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
 
-        if (!body.firstName || !body.lastName || !body.email || !body.password || !body.companyId) {
+        if (!body.firstName || !body.lastName || !body.email || !body.password || !body.companyId || !body.teamId || !body.hireDate) {
             return NextResponse.json(
-                { error: 'First Name, Last Name, Email, Password and Company are required' },
+                { error: 'First Name, Last Name, Email, Password, Company, Team and Hire Date are required' },
                 { status: 400 }
             )
         }
+
         const userExists = await User.findOne({ email: body.email });
 
         if (userExists) {
             return NextResponse.json(
-                { error: 'Tis email is already registered' },
+                { error: 'This email is already registered' },
                 { status: 400 }
             )
         }
@@ -44,12 +45,15 @@ export async function POST(request: NextRequest) {
             password: body.password,
             role: body.role || 'employee',
             companyId: body.companyId,
+            teamId: body.teamId,
+            startDate: new Date(body.hireDate),
             avatarUrl: body.avatarUrl,
-            hireDate: body.hireDate ? new Date(body.hireDate) : undefined,
             isActive: body.isActive !== undefined ? body.isActive : true
         })
+
         const savedUser = await newUser.save();
         const responseData = savedUser.toObject();
+        
         return NextResponse.json(responseData, { status: 201 });
     } catch (error) {
         console.log(error);

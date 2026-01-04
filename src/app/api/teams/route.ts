@@ -6,7 +6,7 @@ export async function GET() {  // get all Teams
 
     try {
         await dbConnect();
-        const teams = await Team.find({}).populate('companyId managerId').lean();
+        const teams = await Team.find({}) //.populate('companyId managerId').lean();
         return NextResponse.json(teams);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to fetch teams' }, { status: 500 });
