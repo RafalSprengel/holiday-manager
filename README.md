@@ -37,3 +37,4 @@ The goal of Holiday Manager is to replace messy spreadsheets with a clean, autom
 1. Clone the repository: `git clone https://github.com/RafalSprengel/holiday-manager`
 2. Install dependencies: `npm install`
 3. Run development server: `npm run dev`
+   
