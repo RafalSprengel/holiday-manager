@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Holiday Manager (Work in Progress 🚧)
 
-## Getting Started
+A modern Employee Leave Management System (SaaS) designed to streamline holiday requests, approvals, and team availability tracking.
 
-First, run the development server:
+## 🚀 Live Preview
+- **URL:** [https://holidaymanager.vercel.app/](https://holidaymanager.vercel.app/)
+- *Note: This project is currently under active development (approx. 20% complete).*
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 💡 The Vision
+The goal of Holiday Manager is to replace messy spreadsheets with a clean, automated dashboard where:
+- **Employees** can easily request leaves and check their remaining balance.
+- **Managers** can oversee team availability through an interactive calendar and approve/reject requests with one click.
+- **Administrators** can manage company structures, public holidays, and user roles.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Tech Stack (Target)
+- **Frontend:** Next.js (App Router), React, JavaScript (ES6+)
+- **UI Library:** Mantine UI / Tailwind CSS (for modern, accessible interface)
+- **State Management:** React Context API / TanStack Query
+- **Backend:** Node.js / Next.js API Routes
+- **Database:** MongoDB (Mongoose) / PostgreSQL
+- **Authentication:** NextAuth.js (supporting Google/GitHub OAuth and Credentials)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📈 Current Progress & Features
+- [x] Initial Project Architecture & Routing (Next.js App Router).
+- [x] Core UI Layout and Navigation (Mantine UI integration).
+- [x] Basic Dashboard Interface.
+- [ ] User Authentication & Role-Based Access (In Progress).
+- [ ] Leave Request Workflow & Calendar View.
+- [ ] Admin Management Panel.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🏗 Engineering Goals
+- **Scalability:** Designing a multi-tenant architecture.
+- **Data Integrity:** Ensuring complex date-range logic for overlapping leave requests.
+- **UX Focus:** Building a highly intuitive, "zero-training" interface for employees.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠 Installation & Setup (Local)
+1. Clone the repository: `git clone https://github.com/RafalSprengel/holiday-manager`
+2. Install dependencies: `npm install`
+3. Run development server: `npm run dev`
