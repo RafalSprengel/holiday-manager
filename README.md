@@ -4,7 +4,7 @@ A modern Employee Leave Management System (SaaS) designed to streamline holiday 
 
 ## 🚀 Live Preview
 - **URL:** [https://holidaymanager.vercel.app/](https://holidaymanager.vercel.app/)
-- *Note: This project is currently under active development (approx. 20% complete).*
+- *Note: This project is currently under active development*
 
 ## 💡 The Vision
 The goal of Holiday Manager is to replace messy spreadsheets with a clean, automated dashboard where:
@@ -14,7 +14,6 @@ The goal of Holiday Manager is to replace messy spreadsheets with a clean, autom
 
 ## 🛠 Tech Stack (Target)
 - **Frontend:** Next.js (App Router), React, JavaScript (ES6+)
-- **UI Library:** Mantine UI / Tailwind CSS (for modern, accessible interface)
 - **State Management:** React Context API / TanStack Query
 - **Backend:** Node.js / Next.js API Routes
 - **Database:** MongoDB (Mongoose) / PostgreSQL
